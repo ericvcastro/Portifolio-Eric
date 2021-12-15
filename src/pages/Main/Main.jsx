@@ -1,39 +1,82 @@
-import React from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import logo from '../../logo.svg';
 import './Main.css';
 // import { ParallaxProvider } from 'react-scroll-parallax';
 // import { Parallax } from 'react-scroll-parallax';
-// import fotoAbertura from '../../images/fotoInicialSemFundo.png';
-import CardMedia from '@mui/material/CardMedia';
-import Card from '@mui/material/Card';
+import fotoAbertura from '../../images/fotoInicialSemFundo.png';
 
 function Main() {
+  // const [stars, setStars] = useState(document.querySelector(".main-header"));
+  const [init, setInit] = useState(true);
 
-  // const ParallaxImage = () => (
-  //   <>
-  //     <ParallaxProvider>
-  //       <Parallax className="custom-class" y={[-20, 20]} tagOuter="figure">
-  //         <Image src={fotoAbertura} />
-  //         {/* <Card sx={{ maxWidth: 345, backgroundColor: '#282c34' }}>
-  //           <CardMedia
-  //           component="img"
-  //           height="140"
-  //           image={fotoAbertura}
-  //           alt="green iguana"
-  //           />
-  //         </Card> */}
-  //       </Parallax>
-  //     </ParallaxProvider>
-  //   </>
-  // );
+  const ParallaxImage = () => {
+    const cards = document.querySelector(".card");
+    const images = document.querySelectorAll(".fotoParallax");
+    const range = 80;
+
+    const calcValue = (a, b) => (a/b*range-range/2).toFixed(100);
+
+    let timeout;
+    document.addEventListener('mousemove', ({x, y}) => {
+      if (timeout) {
+        window.cancelAnimationFrame(timeout);
+      }
+
+      timeout = window.requestAnimationFrame(() => {
+        const yValue = calcValue(y, window.innerHeight);
+        const xValue = calcValue(x, window.innerWidth);
+
+        cards.style.transform = `rotateX(${yValue}deg) rotateY(${xValue}deg)`;
+
+        [].forEach.call(images, (image) => {
+          image.style.transform = `translateX(${-xValue}px) translateY(${yValue}px)`;
+        });
+      })
+    }, false);
+  }
+
+  const EffectStars = useCallback(() => {
+    if(init === true) {
+      const count = 20;
+      const scene = document.querySelector("#teste");
+      let i = 0;
+      if(scene) {
+        while(i < count) {
+          let star = document.createElement('i');
+          let x = Math.floor(Math.random() * window.innerWidth);
+
+          let duration = Math.random() * 1;
+          let h = Math.random() * 100;
+
+          star.style.left = x + 'px';
+          star.style.width = 1 + 'px';
+          star.style.height = 50 + h + 'px';
+          star.style.animationDuration = duration + 's';
+
+          scene.appendChild(star);
+          ++i;
+        }
+      }
+      setInit(false)
+    }
+  }, [init]);
+
+  useEffect(() => {
+    EffectStars()
+  }, [EffectStars]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-
-      </header>
-    </div>
+    <>
+      <div id ='teste' className="main-header">
+        <div className="card">
+          <img src={fotoAbertura} className="fotoParallax" alt="foto" onMouseOver={ParallaxImage} />
+        </div>
+      </div>
+      {!init && EffectStars()}
+      <div>
+        <img src={logo} className="neutron" alt="logo" />
+      </div>
+    </>
   );
 }
 
