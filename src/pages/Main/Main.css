@@ -41,6 +41,22 @@
   animation: animateStars linear infinite;
 }
 
+.typingLetters {
+  background-color: #000000;
+  position: absolute;
+  height: 10rem;
+  top: 30%;
+}
+
+.typingLetters p {
+  top: 30rem;
+  color: white;
+  font-size: x-large;
+  font-weight: 900;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  text-shadow: -1px 0px 50px rgba(255, 255, 255, 1);
+}
+
 @keyframes animateStars {
   0% {
     transform: translateY(0);

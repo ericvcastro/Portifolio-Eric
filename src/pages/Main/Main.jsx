@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import logo from '../../logo.svg';
 import './Main.css';
-// import { ParallaxProvider } from 'react-scroll-parallax';
-// import { Parallax } from 'react-scroll-parallax';
 import fotoAbertura from '../../images/fotoInicialSemFundo.png';
+import Typing from '../../Components/Escrita/Typing';
+
 
 function Main() {
   // const [stars, setStars] = useState(document.querySelector(".main-header"));
@@ -43,7 +43,7 @@ function Main() {
       if(scene) {
         while(i < count) {
           let star = document.createElement('i');
-          let x = Math.floor(Math.random() * window.innerWidth);
+          let x = Math.floor(Math.random() * window.innerWidth * 0.98);
 
           let duration = Math.random() * 1;
           let h = Math.random() * 100;
@@ -68,6 +68,12 @@ function Main() {
   return (
     <>
       <div id ='teste' className="main-header">
+        <div className="typingLetters">
+          <p>
+            Seja Bem-vindo<br></br>
+            <Typing />
+          </p>
+        </div>
         <div className="card">
           <img src={fotoAbertura} className="fotoParallax" alt="foto" onMouseOver={ParallaxImage} />
         </div>
